@@ -1232,6 +1232,89 @@ button.primary.large {
   grid-template-areas: "act act act" "tube tube folds" "spec spec spec" "vowels voice voice" "keys keys keys";
 }
 
+/* the Play tab's autograph pad: the bitmap takes the whole right column */
+.right-autograph {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas: "act" "auto";
+}
+.s-autograph { grid-area: auto; min-height: 0; }
+.s-autograph .screen-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  overflow: auto;
+}
+.autograph-grid {
+  display: grid;
+  gap: 3px;
+  align-items: center;
+  width: 100%;
+}
+.autograph-note {
+  color: var(--text-dim);
+  font: 10px/1 var(--font);
+  letter-spacing: 0.08em;
+  text-align: right;
+  padding-right: 3px;
+}
+.autograph-cell {
+  appearance: none;
+  aspect-ratio: 1;
+  min-width: 4px;
+  padding: 0;
+  border: 1px solid var(--frame);
+  background: #000;
+  border-radius: 0;
+  cursor: pointer;
+}
+.autograph-cell.on {
+  background: var(--amber);
+  border-color: var(--amber);
+  box-shadow: 0 0 5px rgba(255, 179, 64, 0.4);
+}
+.autograph-cell.now {
+  background: var(--white);
+  border-color: var(--white);
+  box-shadow: 0 0 8px var(--white);
+}
+.autograph-letters {
+  display: grid;
+  gap: 3px;
+  align-items: end;
+}
+.autograph-letters span {
+  text-align: center;
+  color: var(--text-dim);
+  font: 10px/1 var(--font);
+  letter-spacing: 0.08em;
+  border-top: 1px solid var(--frame);
+  padding-top: 3px;
+}
+.autograph-read {
+  color: var(--text-dim);
+  font: 10px/1.4 var(--font);
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+.autograph-speed {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-dim);
+  font: 10px/1 var(--font);
+  letter-spacing: 0.08em;
+}
+.autograph-speed input { width: 82px; }
+.autograph-help {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--text-dim);
+  font: 10px/1.6 var(--font);
+  letter-spacing: 0.04em;
+}
+
 .s-tube { grid-area: tube; }
 .s-folds { grid-area: folds; }
 .s-spec { grid-area: spec; }

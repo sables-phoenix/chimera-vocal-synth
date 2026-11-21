@@ -55,6 +55,9 @@ interface State {
   view: ViewOptions;
   mode: Mode;
   setMode: (m: Mode) => void;
+  /** the Play tab's autograph pad is open */
+  autograph: boolean;
+  setAutograph: (on: boolean) => void;
   /** active non-human creature in the bestiary */
   creature: string;
   cparams: Record<string, Record<string, number>>;
@@ -175,18 +178,19 @@ export const useStore = create<State>((set, get) => ({
   view: { pressure: true, particles: true, grid: false, calipers: true, threeD: false },
   // the app opens on Sing: hearing a song is the quickest way in (the plugin opens there too)
   mode: "sing",
+  autograph: false,
   setMode: (m) => {
     const prev = get().mode;
     if (prev === m) return;
     if (inPlugin) {
       // Rust stops the notes and the breath when the mode changes, and sets Beatbox's posture
-      set((s) => ({ mode: m, heldNotes: [], hold: false, artic: m === "beatbox" ? { ...s.artic, ...beatReady(s.body) } : s.artic }));
+      set((s) => ({ mode: m, heldNotes: [], hold: false, autograph: false, artic: m === "beatbox" ? { ...s.artic, ...beatReady(s.body) } : s.artic }));
       engine.pluginMode(m);
       return;
     }
     session++;
     // notes held across the switch would keep breathing into the other voice
-    set({ mode: m, heldNotes: [] });
+    set({ mode: m, heldNotes: [], autograph: false });
     if (prev === "play" && !get().source.voiced) {
       whisperInPlay = true;
       get().setSource({ voiced: true });
@@ -348,6 +352,7 @@ export const useStore = create<State>((set, get) => ({
     set({ hold: h });
     updateGate(get());
   },
+  setAutograph: (on) => set({ autograph: on }),
   toggleBreath: async () => {
     if (get().hold) return get().setHold(false);
     // on at once, so a second press while the audio starts turns it off again; switching tabs

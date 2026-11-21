@@ -21,6 +21,7 @@ import type { Mode } from "./store.ts";
 import type { BodyName } from "../worklet/protocol.ts";
 import { BodyPad } from "./components/BodyPad.tsx";
 import { ResizeGrip } from "./components/ResizeGrip.tsx";
+import { AutographRight } from "./components/AutographPanel.tsx";
 import { presetOf, PRESETS } from "./body.ts";
 
 // three.js only loads when the 3D view is first shown
@@ -167,11 +168,16 @@ function PlayActions() {
   const toggleBreath = useStore((s) => s.toggleBreath);
   const voiced = useStore((s) => s.source.voiced);
   const setSource = useStore((s) => s.setSource);
+  const autograph = useStore((s) => s.autograph);
+  const setAutograph = useStore((s) => s.setAutograph);
   return (
     <ActionBar label="Voice" onSpace={() => void toggleBreath()}>
       <PrimaryButton label="Breathe" icon="breath" playing={hold} onClick={() => void toggleBreath()} />
       <Chip on={!voiced} onClick={() => setSource({ voiced: !voiced })}>
         Whisper
+      </Chip>
+      <Chip on={autograph} onClick={() => setAutograph(!autograph)}>
+        Autograph
       </Chip>
     </ActionBar>
   );
@@ -217,12 +223,13 @@ export function App() {
 
 function Wall() {
   const mode = useStore((s) => s.mode);
+  const autograph = useStore((s) => s.autograph);
   return (
     <div className={`app text-colors mode-${mode}${inPlugin ? " in-plugin" : ""}`}>
       <TopBar />
       <main className={`wall wall-${mode}`}>
         <LeftScreen />
-        {mode === "play" ? <PlayRight /> : mode === "speak" ? <SpeakRight /> : mode === "sing" ? <SingRight /> : mode === "beatbox" ? <BeatboxRight /> : <BestiaryRight />}
+        {mode === "play" ? (autograph ? <AutographRight /> : <PlayRight />) : mode === "speak" ? <SpeakRight /> : mode === "sing" ? <SingRight /> : mode === "beatbox" ? <BeatboxRight /> : <BestiaryRight />}
       </main>
       {inPlugin && <ResizeGrip />}
     </div>
