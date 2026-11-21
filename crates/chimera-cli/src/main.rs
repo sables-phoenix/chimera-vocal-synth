@@ -3,6 +3,7 @@
 //! `calibrate-*.ts`) with their arguments, defaults and printed summaries. Spectrograms of the
 //! WAVs: `bun tools/spectrogram.ts in.wav out.png [title] [maxFreq] [windowMs]`.
 
+mod autograph;
 mod calibrate;
 mod compare;
 mod diagnose;
@@ -27,6 +28,7 @@ usage: chimera <command> [args] [--float]
   render beatbox [outdir] [preset name | pattern] [male|female|child] [bpm] [bars]
   render creature [creatureId] [outdir]
   render vowels  [male|female|child] [out]
+  render autograph [outdir]  (seven voices print CHIMERA in a 5x7 grid)
   syllables      \"lyrics\" [en|tr]  (what the language front ends read: one JSON syllable per sung
                  note; tr reads Latin script as Turkish)
   diagnose       [outdir]
@@ -113,6 +115,7 @@ fn run(args: Vec<String>) -> Result<(), String> {
                 "beatbox" => render::beatbox(&ctx, rest),
                 "creature" => render::creature(&ctx, rest),
                 "vowels" => render::vowels(&ctx, rest),
+                "autograph" => autograph::run(&ctx, rest),
                 _ => Err(format!("unknown render kind {kind:?}\n\n{USAGE}")),
             }
         }
