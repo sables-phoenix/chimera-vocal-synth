@@ -15,7 +15,7 @@ type Meta = {
   intro: number;
   wordEnd: number;
   duration: number;
-  rows: { midi: number; note: string; vowel: string; body: string }[];
+  rows: { midi: number; note: string; vowel: string; vowelLabel: string; body: string }[];
   letters: { ch: string; col0: number; col1: number }[];
   intended: boolean[][];
   detected: boolean[][];

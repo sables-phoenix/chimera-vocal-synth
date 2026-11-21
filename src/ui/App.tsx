@@ -90,7 +90,7 @@ function TopBar() {
           </span>
         ) : null}
         {!inPlugin && (
-          <a className="plugin-link" href="/plugin/" title="CHIMERA as a CLAP, VST3 and AU plugin for your DAW">
+          <a className="plugin-link" href={`${import.meta.env.BASE_URL}plugin/`} title="CHIMERA as a CLAP, VST3 and AU plugin for your DAW">
             Plugin
           </a>
         )}
